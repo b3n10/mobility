@@ -2045,7 +2045,7 @@ li {
 <a onclick="document.getElementById('ts_checklist_area').value='• Findout the exact error/issue \n• Disconnect external devices to isolate if any of them is the point of failure \n• Check for the HDD detection in BIOS \n• Run diags to isolate the H/W functionality \n• Try SMWN to identify the point of failure \n• Diags Fail -> Replace HDD with FIHD \n• Diags pass -> Transfer to the DSS by informing about the paid support.';"> No Boot Laptop</a> <br>
 
 
-<a onclick="document.getElementById('ts_checklist_area').value='• Probe to understand the point of failure \n• Power Cycle\n• Identify the wireless card is detected by the OS \n• Confirm the customer is able to see the available networks/connect to a different network \n• Update the driver (if needed)\n• Check for other devices connected to the network \n• Other devices are also experiencing issue. Refer to ISP and follow up - HIP \n• Other devices connected. Refer to DSS after confirming the H/W functionality is fine. \n• Try to connect to customers preferred network using the passkey. \n• Customer has Passkey -> Try connecting to the network. Doesn't work -> Position DSS \n• Customer doesn't have passkey -> transfer to DSS';"> Wireless Network Connectivity Issues </a> <br>
+<a onclick="document.getElementById('ts_checklist_area').value='• Probe to understand the point of failure \n• Power Cycle\n• Identify the wireless card is detected by the OS \n• Confirm the customer is able to see the available networks/connect to a different network \n• Update the driver (if needed)\n• Check for other devices connected to the network \n• Other devices are also experiencing issue. Refer to ISP and follow up - HIP \n• Other devices connected. Refer to DSS after confirming the H/W functionality is fine. \n• Try to connect to customers preferred network using the passkey. \n• Customer has Passkey -> Try connecting to the network. Doesn\'t work -> Position DSS \n• Customer doesn\'t have passkey -> transfer to DSS';"> Wireless Network Connectivity Issues </a> <br>
 
 
 <a onclick="document.getElementById('ts_checklist_area').value='• Try a different keyboard/different system (vice versa) \n• Check on screen keyboard. Identify if it is an issue with the KBD settings in control panel/KBD functionality itself \n• If settings, change the settings \n• If the KBD itself is faulty, replace KBD';"> Keyboard Issues </a> <br>
@@ -6837,7 +6837,7 @@ bufferdeferral2 = "";
 var bufferOKB;
 bufferOKB = "";
 
-
+//here
 
 
 if (document.getElementById('Daily_Update').checked == true){temp_PMC = "\n**CUSTOMER PREFERRED CASE UPDATE: Daily";} else if (document.getElementById('2day_Update').checked == true){temp_PMC = "\n**CUSTOMER PREFERRED CASE UPDATE: Every other day";} else if (document.getElementById('3day_Update').checked == true){temp_PMC = "\n**CUSTOMER PREFERRED CASE UPDATE: Every 2 days";} else {temp_PMC =""};
@@ -6915,7 +6915,7 @@ if (document.getElementById('txt_otherdiag').value != ""){buffer = "**Diagnostic
       alert('Please enter OKB Article Used');
       getID('ftf_article').focus();
 
-} else if (!val('heat_check')) {
+    } else if (!val('heat_check')) {
       alert('Please select Heat Check:\n1 - N/A\n2 - Sat\n3 - DisSat');
       getID('heat_check').focus();
 
@@ -7896,6 +7896,15 @@ function activatetx(){
 
 }
 
+  //modified prompt function
+  var pt = function (str) {
+    var s = prompt(str, "");
+
+    if (s)
+      return s;
+    else
+      return "";
+  }
 
 function nbddps_cmnt() { 
   
@@ -7907,24 +7916,15 @@ function nbddps_cmnt() {
   bufferx = "";
 
 
-  function pt(str) {
-    var s = prompt(str);
-
-    if (s)
-      return s;
-    else
-      return "";
-  }
 
 
   var TS_SUMMARY= pt("Please enter summary of Troubleshooting steps");
-
-
-
   var NOTETOEOS = pt("Please enter special Note to Engineer");
 
   if (document.getElementById('CID_checkbox').checked) {
     CID_buffer = "\nCustomer confirmed no CID";
+  } else {
+    CID_buffer = "";
   }
 
   if (document.getElementById('diagsNotRunReason').value != "") {
@@ -8030,76 +8030,138 @@ function nbddps_cmnt() {
     buffer_cmnt2 = "";
   }
 
-  if (!NOTETOEOS) {
-    document.getElementById('txta_conclusions').value =  "FOR NBD DISPATCH PLEASE SEND DELL CERTIFIED TECHNICIAN\nIssue " + document.getElementById('current_issue').value +"\n\n"+ TS_SUMMARY + " " + bufferx + "\n\n**Resolution " + document.getElementById('resolution').value + bttr_handle + buffer_cmnt2 + CID_buffer;
+  if (NOTETOEOS) {
+    document.getElementById('txta_conclusions').value =  "FOR NBD DISPATCH PLEASE SEND DELL CERTIFIED TECHNICIAN\nIssue " + document.getElementById('current_issue').value + "\n\n"+ TS_SUMMARY + "\n" + bufferx + "\n\nResolution: " + document.getElementById('resolution').value + "\n" + bttr_handle + buffer_cmnt2 + "\n\nNOTES to Onsite Engineer: "+ NOTETOEOS + CID_buffer;
   } else {
-    document.getElementById('txta_conclusions').value =  "FOR NBD DISPATCH PLEASE SEND DELL CERTIFIED TECHNICIAN\nIssue " + document.getElementById('current_issue').value + "\n\n"+ TS_SUMMARY + " "  + bufferx + "\n\nResolution: " + document.getElementById('resolution').value + "\n" + bttr_handle + buffer_cmnt2 + "\n\nNOTES to Onsite Engineer: "+ NOTETOEOS + CID_buffer;
+    document.getElementById('txta_conclusions').value =  "FOR NBD DISPATCH PLEASE SEND DELL CERTIFIED TECHNICIAN\nIssue " + document.getElementById('current_issue').value +"\n\n"+ TS_SUMMARY + "\n" + bufferx + "\n\n**Resolution " + document.getElementById('resolution').value + bttr_handle + buffer_cmnt2 + CID_buffer;
   }
 
 }
 
 
-function rtddps_cmnt()
-{ 
-var buffer_cmnt;
-var bttr_handle2;
-var CID_bufferx;
-var buffery;
-var Datax;
-var TS_SUMMARYx; 
-buffery = "";
+function rtddps_cmnt() { 
+  var buffer_cmnt;
+  var bttr_handle2;
+  var CID_bufferx;
+  var buffery;
+  var Datax;
+  var TS_SUMMARYx; 
+  buffery = "";
 
-var TS_SUMMARYx= prompt("Please enter summary of Troubleshooting steps", "");
+  var TS_SUMMARYx= pt("Please enter summary of Troubleshooting steps");
+  var NOTETOEOS2 = pt("Please enter special Note to Depot Engineer");
+
+  if (document.getElementById('CID_checkbox').checked) {
+    CID_bufferx = "\nCustomer confirmed no CID"; 
+  }
+
+  if (document.getElementById('Data_Loss').checked) {
+    Datax = "\n\nInformed about Data Loss"; 
+  }
+
+  if (document.getElementById('diagsNotRunReason').value != "") {
+    buffery  = "Diagnostic Used\n"+"No Diagnostics done. REASON: " + document.getElementById('diagsNotRunReason').value + " ";
+  }
+
+  if (document.getElementById('txt_epsaresult').value != "") {
+    buffery = "Diagnostic Used\n"+"ePSA Error Code: " + document.getElementById('txt_epsaresult').value + " Validation Code: " + document.getElementById('txt_epsavcode').value + " " + document.getElementById('txt_epsavalidity').value + document.getElementById('txt_no_code').value; 
+  }
+
+  if (document.getElementById('txt_no_code').value != "") {
+    buffery = "Diagnostic Used\n"+"ePSA Error Msg: " + document.getElementById('txt_no_code').value; 
+  }
+
+  if (document.getElementById('txt_psaplusresult').value != "") {
+    buffery = "Diagnostic Used\n"+"PSA/PSA+/32bit Diag Error Code: " + document.getElementById('txt_psaplusresult').value; 
+  }
+
+  if (document.getElementById('pwrbtn_codes').value != "") {
+    buffery = "Diagnostic Used\n"+"Power button LED Code: " + document.getElementById('pwrbtn_codes').value; 
+  }
+
+  if (document.getElementById('beep_codes').value != "") {
+    buffery = "Diagnostic Used\n"+"Beep Code: " + document.getElementById('beep_codes').value; 
+  }
+
+  if (document.getElementById('SupportAssist_result').value == "Pass") {
+    buffery = "Diagnostic Used\nSupport Assist PASS"; 
+  }
+
+  if (document.getElementById('SupportAssist_result').value == "Fail") {
+    buffery = "Diagnostic Used\nSupport Assist Fail. Error Message: " + document.getElementById('txt_SupportAssist_result').value; 
+  }
+
+  if (document.getElementById('AC_LED_result').value == "Pass") {
+    buffery = "Diagnostic Used\nAC Adapater LED: ON"; 
+  }
+
+  if (document.getElementById('AC_LED_result').value == "Fail") {
+    buffery = "Diagnostic Used\nAC Adapater LED: OFF"; 
+  }
+
+  if (document.getElementById('Online_Diags_result').value == "Pass") {
+    buffery = "Diagnostic Used\nOnline Diagnostics PASS"; 
+  }
+
+  if (document.getElementById('Online_Diags_result').value == "Fail") {
+    buffery = "Diagnostic Used\nOnline Diagnostics Failed. Error Message: " + document.getElementById('txt_Online_Diags').value; 
+  }
+
+  if (document.getElementById('Intel_ProSet_result').value == "Pass") {
+    buffery = "Diagnostic Used\nIntel Proset Diagnostics PASS"; 
+  }
+
+  if (document.getElementById('Intel_ProSet_result').value == "Fail") {
+    buffery = "Diagnostic Used\nIntel Proset Diagnostics Failed. Error Message: " + document.getElementById('txt_Intel_ProSet').value; 
+  }
+
+  if (document.getElementById('FPD_BIST_result').value == "Pass") {
+    buffery = "Diagnostic Used\nFPD BIST PASS"; 
+  }
+
+  if (document.getElementById('FPD_BIST_result').value == "Fail") {
+    buffery = "Diagnostic Used\nFPD BIST Failed. Remarks: " + document.getElementById('txt_FPD_BIST').value; 
+  }
+
+  if (document.getElementById('LCD_BIST_result').value == "Pass") {
+    buffery = "Diagnostic Used\nLCD BIST PASS"; 
+  }
+
+  if (document.getElementById('LCD_BIST_result').value == "Fail") {
+    buffery = "Diagnostic Used\nLCD BIST Failed. Remarks: " + document.getElementById('txt_LCD_BIST').value; 
+  }
+
+  if (document.getElementById('PSU_BIST_result').value == "Pass") {
+    buffery = "Diagnostic Used\nPSU BIST PASS"; 
+  }
+
+  if (document.getElementById('PSU_BIST_result').value == "Fail") {
+    buffery = "Diagnostic Used\nPSU BIST Failed. Remarks: " + document.getElementById('txt_PSU_BIST').value; 
+  }
+
+  if (document.getElementById('txt_otherdiag').value != "") {
+    buffery = "Diagnostic Used\nRan: " + document.getElementById('txt_otherdiag').value + " Results: " + document.getElementById('txt_otherdiagresult').value;
+  }
+
+  if (document.getElementById('alt_phone_number').value != "") {
+    buffer_cmnt = "\nAPN captured and updated";
+  } else {
+    buffer_cmnt = "";
+  }
+
+  if (document.getElementById('bttr').value != "") {
+    bttr_handle2 = "\nBTTR: " + document.getElementById('bttr').value;
+  } else {
+    bttr_handle2 = "";
+  }
 
 
-if (document.getElementById('CID_checkbox').checked){CID_bufferx = "\nCustomer confirmed no CID"; }
-if (document.getElementById('Data_Loss').checked){Datax = "\n\nInformed about Data Loss"; }
+  if (NOTETOEOS2 == "") {
+    document.getElementById('txta_conclusions').value =  "FOR RTD DISPATCH\nIssue: " + document.getElementById('current_issue').value + Datax + "\n\nTroubleshooting Done: "+ document.getElementById('customer_response').value + "\n\n" + TS_SUMMARYx + " " + buffery +"\n\nResolution: " + document.getElementById('resolution').value + bttr_handle2 + buffer_cmnt + CID_bufferx;
+  } else {
+    document.getElementById('txta_conclusions').value =  "FOR RTD DISPATCH\nIssue: " + document.getElementById('current_issue').value +Datax +  "\n\n Troubleshooting Done: "+ document.getElementById('customer_response').value + "\n\n" + TS_SUMMARYx + " " + buffery + "\n\nResolution: "+ document.getElementById('resolution').value + bttr_handle2 + buffer_cmnt +"\n\nNOTES to Depot Engineer: "+ NOTETOEOS2 +CID_bufferx ;
+  }
 
-
-if (document.getElementById('diagsNotRunReason').value != ""){buffery  = "Diagnostic Used\n"+"No Diagnostics done. REASON: " + document.getElementById('diagsNotRunReason').value + " ";}
-if (document.getElementById('txt_epsaresult').value != ""){buffery = "Diagnostic Used\n"+"ePSA Error Code: " + document.getElementById('txt_epsaresult').value + " Validation Code: " + document.getElementById('txt_epsavcode').value + " " + document.getElementById('txt_epsavalidity').value + document.getElementById('txt_no_code').value; }
-if (document.getElementById('txt_no_code').value != ""){buffery = "Diagnostic Used\n"+"ePSA Error Msg: " + document.getElementById('txt_no_code').value; }
-if (document.getElementById('txt_psaplusresult').value != ""){buffery = "Diagnostic Used\n"+"PSA/PSA+/32bit Diag Error Code: " + document.getElementById('txt_psaplusresult').value; }
-if (document.getElementById('pwrbtn_codes').value != ""){buffery = "Diagnostic Used\n"+"Power button LED Code: " + document.getElementById('pwrbtn_codes').value; }
-if (document.getElementById('beep_codes').value != ""){buffery = "Diagnostic Used\n"+"Beep Code: " + document.getElementById('beep_codes').value; }
-if (document.getElementById('SupportAssist_result').value == "Pass"){buffery = "Diagnostic Used\nSupport Assist PASS"; }
-if (document.getElementById('SupportAssist_result').value == "Fail"){buffery = "Diagnostic Used\nSupport Assist Fail. Error Message: " + document.getElementById('txt_SupportAssist_result').value; }
-if (document.getElementById('AC_LED_result').value == "Pass"){buffery = "Diagnostic Used\nAC Adapater LED: ON"; }
-if (document.getElementById('AC_LED_result').value == "Fail"){buffery = "Diagnostic Used\nAC Adapater LED: OFF"; }
-if (document.getElementById('Online_Diags_result').value == "Pass"){buffery = "Diagnostic Used\nOnline Diagnostics PASS"; }
-if (document.getElementById('Online_Diags_result').value == "Fail"){buffery = "Diagnostic Used\nOnline Diagnostics Failed. Error Message: " + document.getElementById('txt_Online_Diags').value; }
-if (document.getElementById('Intel_ProSet_result').value == "Pass"){buffery = "Diagnostic Used\nIntel Proset Diagnostics PASS"; }
-if (document.getElementById('Intel_ProSet_result').value == "Fail"){buffery = "Diagnostic Used\nIntel Proset Diagnostics Failed. Error Message: " + document.getElementById('txt_Intel_ProSet').value; }
-if (document.getElementById('FPD_BIST_result').value == "Pass"){buffery = "Diagnostic Used\nFPD BIST PASS"; }
-if (document.getElementById('FPD_BIST_result').value == "Fail"){buffery = "Diagnostic Used\nFPD BIST Failed. Remarks: " + document.getElementById('txt_FPD_BIST').value; }
-if (document.getElementById('LCD_BIST_result').value == "Pass"){buffery = "Diagnostic Used\nLCD BIST PASS"; }
-if (document.getElementById('LCD_BIST_result').value == "Fail"){buffery = "Diagnostic Used\nLCD BIST Failed. Remarks: " + document.getElementById('txt_LCD_BIST').value; }
-if (document.getElementById('PSU_BIST_result').value == "Pass"){buffery = "Diagnostic Used\nPSU BIST PASS"; }
-if (document.getElementById('PSU_BIST_result').value == "Fail"){buffery = "Diagnostic Used\nPSU BIST Failed. Remarks: " + document.getElementById('txt_PSU_BIST').value; }
-if (document.getElementById('txt_otherdiag').value != ""){buffery = "Diagnostic Used\nRan: " + document.getElementById('txt_otherdiag').value + " Results: " + document.getElementById('txt_otherdiagresult').value;}
-
-
-
-var NOTETOEOS2 = prompt("Please enter special Note to Depot Engineer", "");
-
-if (document.getElementById('alt_phone_number').value != "") {
-buffer_cmnt = "\nAPN captured and updated";
-} else {buffer_cmnt = "";}
-
-if (document.getElementById('bttr').value != "") {
-bttr_handle2 = "\nBTTR: " + document.getElementById('bttr').value;
-} else {bttr_handle2 = "";}
-
-
-if (NOTETOEOS2 == "")
-{
-document.getElementById('txta_conclusions').value =  "FOR RTD DISPATCH\nIssue: " + document.getElementById('current_issue').value + Datax + "\n\nTroubleshooting Done: "+ document.getElementById('customer_response').value + "\n\n" + TS_SUMMARYx + " " + buffery +"\n\nResolution: " + document.getElementById('resolution').value + bttr_handle2 + buffer_cmnt + CID_bufferx;
-}
-else
-{
-document.getElementById('txta_conclusions').value =  "FOR RTD DISPATCH\nIssue: " + document.getElementById('current_issue').value +Datax +  "\n\n Troubleshooting Done: "+ document.getElementById('customer_response').value + "\n\n" + TS_SUMMARYx + " " + buffery + "\n\nResolution: "+ document.getElementById('resolution').value + bttr_handle2 + buffer_cmnt +"\n\nNOTES to Depot Engineer: "+ NOTETOEOS2 +CID_bufferx ;
-
-}
 }
 
 
