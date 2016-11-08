@@ -98,10 +98,28 @@ input[type="text"] {
 
 .option {
   width: inherit;
+  height: inherit;
 }
 
-.option:hover {
+
+div.option > button {
+  width: inherit;
+  height: inherit;
+  color: black;
+  background: white;
+  border: solid black 1px;
+  border-radius: 0px;
+  padding-left: 1px;
+  padding-right: 1px;
+}
+
+div.option > button:hover {
   color: #ffffff;
   background-color: #1b3c72;
   cursor: pointer;
+}
+
+div.option > button:focus {
+  color: #ffffff;
+  background-color: black;
 }
