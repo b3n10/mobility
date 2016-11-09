@@ -2,7 +2,7 @@
 
 * {
   box-sizing: border-box;
-  /*border: solid green 1px;*/
+  //border: solid green 1px;
   outline: none;
   font-family: 'Montserrat', sans-serif;
   font-size: 13px;
@@ -21,7 +21,7 @@ body {
 }
 
 @media screen and (max-width: 480px) {
-  #top_div, #mid_div {
+  #popup_agentdescription, #top_div, #mid_div {
     display: block;
     flex-wrap: wrap;
   }
@@ -31,7 +31,8 @@ body {
   display: block;
   margin: auto;
   text-align: center;
-  max-width: 840px;
+  max-width: 600px;
+  position: relative;
 }
 
 #top_div, #mid_div {
@@ -99,6 +100,7 @@ input[type="text"] {
 .option {
   width: inherit;
   height: inherit;
+  font-weight: bold;
 }
 
 
@@ -115,11 +117,33 @@ div.option > button {
 
 div.option > button:hover {
   color: #ffffff;
-  background-color: #1b3c72;
+  background-color: #285296;
   cursor: pointer;
 }
 
 div.option > button:focus {
   color: #ffffff;
-  background-color: black;
+  background-color: #1b3c72;
+}
+
+label#lbl_select {
+  color: #285296;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+#popup_agentdescription {
+  position: absolute;
+  top: 40px;
+  width: 100%;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 2px;
+  display: flex;
+  display: none;
+}
+
+#popup_agentdescription > ul {
+  text-align: left;
+  padding-left: 25px;
 }
